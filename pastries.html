@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bakery - Starbucks Manager</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <div class="logo-container">
+        <h1>Starbucks Coffee</h1>
+    </div>
+    <nav id="main-nav">
+        <a href="home.html">Home</a> 
+        <a href="index.html">Coffees</a> 
+        <a href="teas.html">Teas & Refreshers</a>
+        <a href="pastries.html">Bakery</a>
+    </nav>
+</header>
+
+<main class="menu">
+    <h2>Freshly Baked Pastries</h2>
+
+    <div class="item">
+        <div class="item-content">
+            <div class="image-container">
+                <img src="https://www.starbucks.com.ph/menu/food/bakery/chocolate-croissant/image.jpg" alt="Chocolate Croissant" class="menu-img">
+            </div>
+            <div class="details">
+                <span class="name">Chocolate Croissant</span>
+                <span class="price">₱120.00</span>
+            </div>
+        </div>
+        <div class="controls">
+            <input type="number" value="0" min="0" id="qty-croissant">
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="item-content">
+            <div class="image-container">
+                <img src="https://www.starbucks.com.ph/menu/food/bakery/blueberry-muffin/image.jpg" alt="Blueberry Muffin" class="menu-img">
+            </div>
+            <div class="details">
+                <span class="name">Blueberry Muffin</span>
+                <span class="price">₱105.00</span>
+            </div>
+        </div>
+        <div class="controls">
+            <input type="number" value="0" min="0" id="qty-muffin">
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="item-content">
+            <div class="image-container">
+                <img src="https://www.starbucks.com.ph/menu/food/bakery/glazed-doughnut/image.jpg" alt="Glazed Doughnut" class="menu-img">
+            </div>
+            <div class="details">
+                <span class="name">Glazed Doughnut</span>
+                <span class="price">₱85.00</span>
+            </div>
+        </div>
+        <div class="controls">
+            <input type="number" value="0" min="0" id="qty-doughnut">
+        </div>
+    </div>
+
+    <button class="order-btn" onclick="calculateTotal()">Place My Order</button>
+
+    <div class="total-display">
+        <h3>Total Amount: <span id="grand-total">₱0.00</span></h3>
+    </div>
+</main>
+
+<div id="receiptModal" class="modal-overlay">
+    <div class="modal-content">
+        <h3>Order Confirmation</h3>
+        <div id="receiptDetails" class="receipt-breakdown">
+            </div>
+        <div class="modal-buttons">
+            <button class="pay-btn" onclick="confirmPayment()">Confirm & Pay</button>
+            <button class="cancel-btn" onclick="closeModal()">Edit Order</button>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
