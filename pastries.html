@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bakery - Starbucks Manager</title>
+    <title>Starbucks - Bakery</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,7 +12,7 @@
     <div class="logo-container">
         <h1>Starbucks Coffee</h1>
     </div>
-    <nav id="main-nav">
+    <nav>
         <a href="home.html">Home</a> 
         <a href="index.html">Coffees</a> 
         <a href="teas.html">Teas & Refreshers</a>
@@ -20,73 +20,132 @@
     </nav>
 </header>
 
-<main class="menu">
-    <h2>Freshly Baked Pastries</h2>
+<!-- === BANNER === -->
+<div class="banner-container">
+    <img src="/images/pastrybanner.jpg" class="promo-banner" alt="Promo Banner">
+</div>
+<!-- ============== -->
 
-    <div class="item">
-        <div class="item-content">
-            <div class="image-container">
-                <img src="https://www.starbucks.com.ph/menu/food/bakery/chocolate-croissant/image.jpg" alt="Chocolate Croissant" class="menu-img">
-            </div>
-            <div class="details">
-                <span class="name">Chocolate Croissant</span>
-                <span class="price">₱120.00</span>
-            </div>
-        </div>
-        <div class="controls">
-            <input type="number" value="0" min="0" id="qty-croissant">
-        </div>
-    </div>
+<div class="shop-container">
+    <section class="menu">
+        <h2>Freshly Baked Pastries</h2>
 
-    <div class="item">
-        <div class="item-content">
-            <div class="image-container">
-                <img src="https://www.starbucks.com.ph/menu/food/bakery/blueberry-muffin/image.jpg" alt="Blueberry Muffin" class="menu-img">
+        <div class="item">
+            <div class="item-content">
+                <div class="details">
+                    <span class="name">Chocolate Croissant</span>
+                    <span class="price">₱120.00</span>
+                </div>
             </div>
-            <div class="details">
-                <span class="name">Blueberry Muffin</span>
-                <span class="price">₱105.00</span>
+            <input type="number" id="qty-croissant" min="0" value="0" placeholder="0">
+        </div>
+
+        <div class="item">
+            <div class="item-content">
+                <div class="details">
+                    <span class="name">Blueberry Muffin</span>
+                    <span class="price">₱105.00</span>
+                </div>
             </div>
+            <input type="number" id="qty-muffin" min="0" value="0" placeholder="0">
         </div>
-        <div class="controls">
-            <input type="number" value="0" min="0" id="qty-muffin">
-        </div>
-    </div>
 
-    <div class="item">
-        <div class="item-content">
-            <div class="image-container">
-                <img src="https://www.starbucks.com.ph/menu/food/bakery/glazed-doughnut/image.jpg" alt="Glazed Doughnut" class="menu-img">
+        <div class="item">
+            <div class="item-content">
+                <div class="details">
+                    <span class="name">Glazed Doughnut</span>
+                    <span class="price">₱85.00</span>
+                </div>
             </div>
-            <div class="details">
-                <span class="name">Glazed Doughnut</span>
-                <span class="price">₱85.00</span>
+            <input type="number" id="qty-doughnut" min="0" value="0" placeholder="0">
+        </div>
+    </section>
+
+    <section class="cart-section">
+        <h2>Your Order</h2>
+        <div id="cart-items">
+            <p class="empty-cart">Your cart is empty.</p>
+        </div>
+        <div class="cart-footer">
+            <div class="total-display">
+                <h3>Total: ₱<span id="totalMain">0.00</span></h3>
             </div>
+            <button class="order-btn" onclick="showDiscountWindow()">Place Order</button>
         </div>
-        <div class="controls">
-            <input type="number" value="0" min="0" id="qty-doughnut">
-        </div>
-    </div>
+    </section>
+</div>
 
-    <button class="order-btn" onclick="calculateTotal()">Place My Order</button>
+<script src="script.js"></script>
 
-    <div class="total-display">
-        <h3>Total Amount: <span id="grand-total">₱0.00</span></h3>
-    </div>
-</main>
-
-<div id="receiptModal" class="modal-overlay">
+<!-- Modals and Toast Notification -->
+<div id="discountModal" class="modal-overlay">
     <div class="modal-content">
-        <h3>Order Confirmation</h3>
-        <div id="receiptDetails" class="receipt-breakdown">
-            </div>
+        <h3>Senior Citizen Discount</h3>
+        <p>Please enter your age to check for a 12% discount:</p>
+        <input type="number" id="customerAge" placeholder="Age" min="0" max="120" style="width: 100px; padding: 10px; margin: 15px 0; font-size: 1rem;">
+        
         <div class="modal-buttons">
-            <button class="pay-btn" onclick="confirmPayment()">Confirm & Pay</button>
-            <button class="cancel-btn" onclick="closeModal()">Edit Order</button>
+            <button class="pay-btn" onclick="proceedToPayment()">Proceed</button>
+            <button class="cancel-btn" onclick="closeDiscountWindow()">Cancel</button>
         </div>
     </div>
 </div>
 
-<script src="script.js"></script>
+<footer class="site-footer">
+    <div class="footer-content">
+        <div class="footer-brand">
+            <h2 style="border: none; padding: 0;">Starbucks Coffee</h2>
+            <p>Handcrafted for your day, every day.</p>
+        </div>
+        
+        <div class="footer-links">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="index.html">Coffees</a></li>
+                <li><a href="teas.html">Teas & Refreshers</a></li>
+                <li><a href="pastries.html">Bakery</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-contact">
+            <h3>Contact Us</h3>
+            <p>Email: customercare@starbucks.local</p>
+            <p>Phone: (123) 456-7890</p>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>&copy; 2026 Starbucks Manager Project. All rights reserved.</p>
+    </div>
+</footer>
+
+<div id="paymentModal" class="modal-overlay">
+    <div class="modal-content">
+        <h3>Confirm Payment</h3>
+        
+        <div class="receipt-breakdown">
+            <div class="receipt-line">
+                <span>Original Total:</span>
+                <strong>₱<span id="originalTotal">0.00</span></strong>
+            </div>
+            <div class="receipt-line discount-line">
+                <span>Discount (12%):</span>
+                <strong>- ₱<span id="discountAmount">0.00</span></strong>
+            </div>
+            <div class="receipt-line final-line">
+                <span>Final Payable:</span>
+                <strong>₱<span id="finalTotal">0.00</span></strong>
+            </div>
+        </div>
+        
+        <div class="modal-buttons">
+            <button class="pay-btn" onclick="processPayment()">Pay Now</button>
+            <button class="cancel-btn" onclick="closePaymentWindow()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<div id="toast" class="toast">Message</div>
 </body>
 </html>

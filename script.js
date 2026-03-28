@@ -1,24 +1,82 @@
+// Master list of all items across the entire website
+const menuItems = {
+    // Coffees
+    'latteQty': { name: 'Caffè Latte', price: 185 },
+    'macchiatoQty': { name: 'Caramel Macchiato', price: 210 },
+    'mochaQty': { name: 'White Chocolate Mocha', price: 195 },
+    'frappeQty': { name: 'Java Chip Frappuccino®', price: 225 },
+    
+    // Teas
+    'matchaQty': { name: 'Matcha Tea Latte', price: 175 },
+    'hibiscusQty': { name: 'Iced Hibiscus Tea', price: 165 },
+    'chaiQty': { name: 'Chai Tea Latte', price: 180 },
+    'pinkQty': { name: 'Pink Drink', price: 195 },
 
-const latteInput = document.getElementById("latteQty");
-const macchiatoInput = document.getElementById("macchiatoQty");
-const mochaInput = document.getElementById("mochaQty");
-const frappeInput = document.getElementById("frappeQty");
-const totalMain = document.getElementById("totalMain");
-
-const matchaInput = document.getElementById("matchaQty");
-const hibiscusInput = document.getElementById("hibiscusQty");
-const chaiInput = document.getElementById("chaiQty");
-const pinkInput = document.getElementById("pinkQty");
-const totalTea = document.getElementById("totalTea");
-
-const allInputs = [
-    latteInput, macchiatoInput, mochaInput, frappeInput, 
-    matchaInput, hibiscusInput, chaiInput, pinkInput
-];
+    // Pastries
+    'qty-croissant': { name: 'Chocolate Croissant', price: 120 },
+    'qty-muffin': { name: 'Blueberry Muffin', price: 105 },
+    'qty-doughnut': { name: 'Glazed Doughnut', price: 85 }
+};
 
 function formatMoney(amount) {
     return amount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
 }
+
+// Function to update the cart on the right side
+function updateCart() {
+    let total = 0;
+    const cartItemsContainer = document.getElementById('cart-items');
+    const totalMain = document.getElementById("totalMain");
+    
+    cartItemsContainer.innerHTML = ''; 
+    let hasItems = false;
+
+    // Look for all number inputs on the page
+    const currentInputs = document.querySelectorAll('input[type="number"]');
+
+    currentInputs.forEach(input => {
+        const qty = Number(input.value) || 0;
+        const itemId = input.id;
+        
+        // Ensure we don't calculate the customer's age as an item!
+        if (itemId !== 'customerAge' && qty > 0 && menuItems[itemId]) {
+            hasItems = true;
+            const itemData = menuItems[itemId];
+            const itemTotal = qty * itemData.price;
+            total += itemTotal;
+
+            // Add the item to the cart HTML
+            cartItemsContainer.innerHTML += `
+                <div class="cart-item">
+                    <span>${qty}x ${itemData.name}</span>
+                    <span style="color: #007042; font-weight: bold;">₱${formatMoney(itemTotal)}</span>
+                </div>
+            `;
+        }
+    });
+
+    if (!hasItems) {
+        cartItemsContainer.innerHTML = '<p class="empty-cart">Your cart is empty.</p>';
+    }
+
+    if (totalMain) {
+        totalMain.innerText = formatMoney(total); 
+    }
+
+    return total; 
+}
+
+// Listen for typing or clicking arrows on the number boxes
+document.addEventListener('DOMContentLoaded', () => {
+    const inputs = document.querySelectorAll('input[type="number"]');
+    inputs.forEach(input => {
+        if (input.id !== 'customerAge') {
+            input.addEventListener('input', updateCart);
+        }
+    });
+});
+
+// --- POPUP, DISCOUNT, AND PAYMENT LOGIC ---
 
 function showToast(message, isError = false) {
     const toast = document.getElementById("toast");
@@ -37,41 +95,10 @@ function showToast(message, isError = false) {
     }, 3000);
 }
 
-function updateTotal() {
-    let total = 0;
-
-    if (totalMain) {
-        let latte = 185 * (Number(latteInput.value) || 0);
-        let macchiato = 210 * (Number(macchiatoInput.value) || 0);
-        let mocha = 195 * (Number(mochaInput.value) || 0);
-        let frappe = 225 * (Number(frappeInput.value) || 0);
-        
-        total = latte + macchiato + mocha + frappe;    
-        totalMain.innerText = formatMoney(total); 
-    }
-
-    if (totalTea) {
-        let matcha = 175 * (Number(matchaInput.value) || 0);
-        let hibiscus = 165 * (Number(hibiscusInput.value) || 0);
-        let chai = 180 * (Number(chaiInput.value) || 0);
-        let pink = 195 * (Number(pinkInput.value) || 0);
-        
-        total = matcha + hibiscus + chai + pink;
-        totalTea.innerText = formatMoney(total);
-    }
-
-    return total;
-}
-
-allInputs.forEach(input => {
-    if (input) {
-        input.addEventListener('input', updateTotal);
-    }
-});
-
 function showDiscountWindow() {
-    let currentTotal = updateTotal();
+    let currentTotal = updateCart();
     
+    // Don't let them order if the cart is empty
     if (currentTotal === 0) {
         showToast("Please add at least one item to your order.", true);
         return;
@@ -86,31 +113,32 @@ function closeDiscountWindow() {
 }
 
 function proceedToPayment() {
-
     let ageInput = document.getElementById("customerAge").value;
 
     if (ageInput !== "") {
         let checkedAge = Number(ageInput);
-        if (checkedAge < 0) {
-            showToast("Age cannot be negative.", true);
+        if (checkedAge <= 0) { 
+            showToast("Please enter a valid age greater than 0.", true);
             return; 
         }
         if (checkedAge > 120) {
-            showToast("Please enter a valid age (Max 120).", true);
+            showToast("Please enter a valid age.", true);
             return;
         }
     }
 
     let age = Number(ageInput) || 0;
-    let total = updateTotal();
+    let total = updateCart();
     let discount = 0;
 
+    // Apply 12% discount if age is 60 or older
     if (age >= 60) {
         discount = total * 0.12;
     }
 
     let finalTotal = total - discount;
 
+    // Fill the receipt in the payment modal
     document.getElementById("originalTotal").innerText = formatMoney(total);
     document.getElementById("discountAmount").innerText = formatMoney(discount);
     document.getElementById("finalTotal").innerText = formatMoney(finalTotal);
@@ -124,16 +152,17 @@ function closePaymentWindow() {
 }
 
 function processPayment() {
-
-    showToast("Payment Successful! Enjoy your drinks.");
+    showToast("Payment Successful! Enjoy your order.");
     
-    allInputs.forEach(input => {
-        if (input) {
+    // Clear all inputs back to 0 after successful payment
+    const inputs = document.querySelectorAll('input[type="number"]');
+    inputs.forEach(input => {
+        if (input.id !== 'customerAge') {
             input.value = 0;
         }
     });
     
-    updateTotal(); 
+    updateCart(); 
     closePaymentWindow();
-
 }
+
