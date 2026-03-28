@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Starbucks - Teas & Refreshers</title>
+    <title>StarStop Coffee - Teas & Refreshers</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header>
     <div class="logo-container">
-        <h1>Starbucks Coffee</h1>
+        <h1>StarStop Coffee</h1>
     </div>
     <nav>
         <a href="home.html">Home</a> 
@@ -27,47 +27,64 @@
 <!-- ============== -->
 
 <div class="shop-container">
+    
     <section class="menu">
         <h2>Teas & Refreshers</h2>
 
         <div class="item">
             <div class="item-content">
+                <!-- Image Placeholder -->
+                <div class="image-container">
+                    <img src="/images/matchalatte.jpg" alt="Matcha Tea Latte" class="menu-img">
+                </div>
                 <div class="details">
                     <span class="name">Matcha Tea Latte</span>
                     <span class="price">₱175.00</span>
                 </div>
             </div>
-            <input type="number" id="matchaQty" min="0" value="0" placeholder="0">
+            <input type="number" id="matchaQty" min="0" value="0">
         </div>
 
         <div class="item">
             <div class="item-content">
+                <!-- Image Placeholder -->
+                <div class="image-container">
+                    <img src="images/hibiscus.jpg" alt="Iced Hibiscus Tea" class="menu-img">
+                </div>
                 <div class="details">
                     <span class="name">Iced Hibiscus Tea</span>
                     <span class="price">₱165.00</span>
                 </div>
             </div>
-            <input type="number" id="hibiscusQty" min="0" value="0" placeholder="0">
+            <input type="number" id="hibiscusQty" min="0" value="0">
         </div>
 
         <div class="item">
             <div class="item-content">
+                <!-- Image Placeholder -->
+                <div class="image-container">
+                    <img src="images/chai.jpg" alt="Chai Tea Latte" class="menu-img">
+                </div>
                 <div class="details">
                     <span class="name">Chai Tea Latte</span>
                     <span class="price">₱180.00</span>
                 </div>
             </div>
-            <input type="number" id="chaiQty" min="0" value="0" placeholder="0">
+            <input type="number" id="chaiQty" min="0" value="0">
         </div>
 
         <div class="item">
             <div class="item-content">
+                <!-- Image Placeholder -->
+                <div class="image-container">
+                    <img src="images/pink-drink.jpg" alt="Pink Drink" class="menu-img">
+                </div>
                 <div class="details">
                     <span class="name">Pink Drink with Strawberry</span>
                     <span class="price">₱195.00</span>
                 </div>
             </div>
-            <input type="number" id="pinkQty" min="0" value="0" placeholder="0">
+            <input type="number" id="pinkQty" min="0" value="0">
         </div>
     </section>
 
@@ -83,28 +100,14 @@
             <button class="order-btn" onclick="showDiscountWindow()">Place Order</button>
         </div>
     </section>
-</div>
 
-<script src="script.js"></script>
+</div> <!-- Closes shop-container -->
 
-<!-- Modals and Toast Notification -->
-<div id="discountModal" class="modal-overlay">
-    <div class="modal-content">
-        <h3>Senior Citizen Discount</h3>
-        <p>Please enter your age to check for a 12% discount:</p>
-        <input type="number" id="customerAge" placeholder="Age" min="0" max="120" style="width: 100px; padding: 10px; margin: 15px 0; font-size: 1rem;">
-        
-        <div class="modal-buttons">
-            <button class="pay-btn" onclick="proceedToPayment()">Proceed</button>
-            <button class="cancel-btn" onclick="closeDiscountWindow()">Cancel</button>
-        </div>
-    </div>
-</div>
-
+<!-- === FOOTER === -->
 <footer class="site-footer">
     <div class="footer-content">
         <div class="footer-brand">
-            <h2 style="border: none; padding: 0;">Starbucks Coffee</h2>
+            <h2 style="border: none; padding: 0;">StarStop Coffee</h2>
             <p>Handcrafted for your day, every day.</p>
         </div>
         
@@ -120,20 +123,31 @@
         
         <div class="footer-contact">
             <h3>Contact Us</h3>
-            <p>Email: customercare@starbucks.local</p>
+            <p>Email: customercare@starStop.local</p>
             <p>Phone: (123) 456-7890</p>
         </div>
     </div>
-    
     <div class="footer-bottom">
-        <p>&copy; 2026 Starbucks Manager Project. All rights reserved.</p>
+        <p>&copy; 2026 StarStop Manager Project. All rights reserved.</p>
     </div>
 </footer>
+
+<!-- === MODALS & POPUPS === -->
+<div id="discountModal" class="modal-overlay">
+    <div class="modal-content">
+        <h3>Senior Citizen Discount</h3>
+        <p>Please enter your age to check for a 12% discount:</p>
+        <input type="number" id="customerAge" placeholder="Age" min="0" max="120" class="age-input">
+        <div class="modal-buttons">
+            <button class="pay-btn" onclick="proceedToPayment()">Proceed</button>
+            <button class="cancel-btn" onclick="closeDiscountWindow()">Cancel</button>
+        </div>
+    </div>
+</div>
 
 <div id="paymentModal" class="modal-overlay">
     <div class="modal-content">
         <h3>Confirm Payment</h3>
-        
         <div class="receipt-breakdown">
             <div class="receipt-line">
                 <span>Original Total:</span>
@@ -148,7 +162,6 @@
                 <strong>₱<span id="finalTotal">0.00</span></strong>
             </div>
         </div>
-        
         <div class="modal-buttons">
             <button class="pay-btn" onclick="processPayment()">Pay Now</button>
             <button class="cancel-btn" onclick="closePaymentWindow()">Cancel</button>
@@ -157,5 +170,7 @@
 </div>
 
 <div id="toast" class="toast">Message</div>
+
+<script src="script.js"></script>
 </body>
 </html>
